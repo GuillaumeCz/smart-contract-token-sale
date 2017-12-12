@@ -42,7 +42,7 @@ contract BlockFoodToken is ERC20Token {
     uint public maxCap;
 
     // History
-    mapping (address => uint256) history;
+    mapping(address => uint256) history;
 
     // Use to finalize the token sale
     bool public isFinalized = false;
@@ -117,18 +117,18 @@ contract BlockFoodToken is ERC20Token {
 
     function BlockFoodToken
     (
-    address _target,
-    uint _phase1Date,
-    uint _phase2Date,
-    uint _phase3Date,
-    uint _phase4Date,
-    uint _endDate,
-    uint _phase1Rate,
-    uint _phase2Rate,
-    uint _phase3Rate,
-    uint _phase4Rate,
-    uint _minCap,
-    uint _maxCap
+        address _target,
+        uint _phase1Date,
+        uint _phase2Date,
+        uint _phase3Date,
+        uint _phase4Date,
+        uint _endDate,
+        uint _phase1Rate,
+        uint _phase2Rate,
+        uint _phase3Rate,
+        uint _phase4Rate,
+        uint _minCap,
+        uint _maxCap
     )
     public
     {

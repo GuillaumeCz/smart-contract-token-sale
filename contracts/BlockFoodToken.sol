@@ -2,13 +2,13 @@ pragma solidity ^0.4.0;
 
 import "./ERC20Token.sol";
 
-contract BlockFoodCoin is ERC20Token {
+contract BlockFoodToken is ERC20Token {
 
     // Symbol of the token
     string public constant symbol = "BFC";
 
     // Name of the token
-    string public constant name = "BlockFoodCoin";
+    string public constant name = "BlockFoodToken";
 
     /*
 
@@ -50,13 +50,6 @@ contract BlockFoodCoin is ERC20Token {
     // Use to cancel the token sale
     bool public isCancelled = false;
 
-    /*
-
-    Donation definition
-
-    */
-    // Amount collected without reward
-    uint public donations;
 
     /*
 
@@ -64,11 +57,8 @@ contract BlockFoodCoin is ERC20Token {
 
     */
 
-    // Event triggered on donation exchanged for blockFoodCoins
-    event Donation(address account, uint256 etherDonated, uint256 blockFoodCoins);
-
-    // Event triggered on donation
-    event ThankYou(address account, uint256 etherDonated);
+    // Event triggered on donation exchanged for BlockFoodTokens
+    event Donation(address account, uint256 etherDonated, uint256 BlockFoodTokens);
 
     // Event triggered on refund being executed
     event Refund(address account, uint256 etherRefunded);
@@ -125,7 +115,7 @@ contract BlockFoodCoin is ERC20Token {
 
     */
 
-    function BlockFoodCoin
+    function BlockFoodToken
     (
     address _target,
     uint _phase1Date,
@@ -174,7 +164,7 @@ contract BlockFoodCoin is ERC20Token {
 
     // Functions for external users
 
-    function buy()
+    function apply()
     public
     payable
     onlyActiveDuringTokenSale
@@ -260,30 +250,5 @@ contract BlockFoodCoin is ERC20Token {
     function mint(address addr, uint bfcToCreate) private {
         balances[addr] += bfcToCreate;
         _totalSupply += bfcToCreate;
-    }
-
-
-    /*
-
-    Test functions
-    DO NOT USE
-
-    */
-
-    function donate()
-    public
-    payable
-    {
-        donations += msg.value;
-        ThankYou(msg.sender, msg.value);
-    }
-
-    function withdrawDonations()
-    public
-    onlyOwner
-    {
-        uint amount = donations;
-        donations = 0;
-        target.transfer(amount);
     }
 }

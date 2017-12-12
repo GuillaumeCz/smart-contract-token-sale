@@ -2,7 +2,7 @@
 
 ## Goal
 
-The goal of this smart contract is to create and distribute BlockFoodCoin according to the rules specified in the whitepaper.
+The goal of this smart contract is to create and distribute BlockFoodToken according to the rules specified in the whitepaper.
 
 The token sale behaviour is coded into the smart contract itself. Nothing is hidden.
 
@@ -10,7 +10,7 @@ The token sale behaviour is coded into the smart contract itself. Nothing is hid
 
 The BlockFood Token Sale Smart Contract will be deployed on the Ethereum blockchain before the date of the token sale.
 
-Its address will be communicated from the [BlockFood.io](https://bockfood.io) website.
+Its address will be communicated from the [https://blockfood.io](https://bockfood.io) website.
 
 ## Dev
 
@@ -38,7 +38,7 @@ This will output something like this:
 
 ```bash
 $ truffle test
-Compiling .\contracts\BlockFoodCoin.sol...
+Compiling .\contracts\BlockFoodToken.sol...
 Compiling .\contracts\ERC20Token.sol...
 Compiling .\contracts\Migrations.sol...
 Deployer {
@@ -57,7 +57,7 @@ Deployer {
   network_id: 4447,
   provider: { send: [Function: send], sendAsync: [Function: sendAsync] },
   basePath: 'C:\\Dev\\perso\\smart-contract-token-sale\\migrations' }
-Deploy BlockFoodCoin { target: '0xa3d736079d6bf7c14a96ab3ad131c349ceaf141e',
+Deploy BlockFoodToken { target: '0xa3d736079d6bf7c14a96ab3ad131c349ceaf141e',
   phase1Date: 1515427200,
   phase2Date: 1516032000,
   phase3Date: 1516636800,
@@ -71,7 +71,7 @@ Deploy BlockFoodCoin { target: '0xa3d736079d6bf7c14a96ab3ad131c349ceaf141e',
   maxCap: 54000 }
 
 
-  Contract: BlockFoodCoin
+  Contract: BlockFoodToken
     √ should properly set the values from the constructor (281ms)
     buy
       √ should work (147ms)

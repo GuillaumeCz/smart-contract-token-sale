@@ -1,5 +1,5 @@
 /*
-Main BlockFoodCoin test driven development test
+Main BlockFoodTokenTestable test driven development test
 
 - test constructor
     - make sure data is store properly
@@ -23,7 +23,7 @@ Main BlockFoodCoin test driven development test
  */
 const config = require('../token-sale/config')
 
-const BlockFoodCoin = artifacts.require('./BlockFoodCoin.sol')
+const BlockFoodTokenTestable = artifacts.require('./BlockFoodTokenTestable.sol')
 
 const getBalance = (addr) => new Promise((resolve, reject) =>
     web3.eth.getBalance(addr, (err, result) => {
@@ -50,10 +50,10 @@ const expectFailure = async (promise, errorMessage) => {
     assert.equal(hasFailed, true, errorMessage)
 }
 
-contract('BlockFoodCoin', function (accounts) {
+contract('BlockFoodTokenTestable', function (accounts) {
 
     it('should properly set the values from the constructor', async () => {
-        const instance = await BlockFoodCoin.deployed()
+        const instance = await BlockFoodTokenTestable.deployed()
 
         const [
             owner,
@@ -104,11 +104,11 @@ contract('BlockFoodCoin', function (accounts) {
         assert.equal(maxCap.toString(10), web3.toWei(config.maxCap, 'ether'), 'maxCap is not correctly set')
 
         assert.equal(symbol, 'BFC', 'symbol is not correctly set')
-        assert.equal(name, 'BlockFoodCoin', 'name is not correctly set')
+        assert.equal(name, 'BlockFoodToken', 'name is not correctly set')
     })
 
     const getNewInstance = async (config) => {
-        return (await BlockFoodCoin.new(
+        return (await BlockFoodTokenTestable.new(
             config.target,
             config.phase1Date,
             config.phase2Date,
@@ -124,7 +124,7 @@ contract('BlockFoodCoin', function (accounts) {
         ))
     }
 
-    describe('buy', () => {
+    describe('apply', () => {
 
         const testFailure = async (phase1Date, endDate) => {
             const configDuplicate = Object.assign({}, config)
@@ -134,8 +134,8 @@ contract('BlockFoodCoin', function (accounts) {
             const instance = await getNewInstance(configDuplicate)
 
             await expectFailure(
-                instance.buy({ value: web3.toWei(1, 'ether') }),
-                'buy did not throw an error'
+                instance.apply({ value: web3.toWei(1, 'ether') }),
+                'apply did not throw an error'
             )
         }
 
@@ -146,7 +146,7 @@ contract('BlockFoodCoin', function (accounts) {
 
             const instance = await getNewInstance(configDuplicate)
 
-            await instance.buy({ value: web3.toWei(1, 'ether') })
+            await instance.apply({ value: web3.toWei(1, 'ether') })
 
             // const { now, startDate, endDate} = logs[0].args
             // console.log(new Date(), [now, startDate, endDate].map(d => new Date(d.toNumber()*1000)))
@@ -168,11 +168,11 @@ contract('BlockFoodCoin', function (accounts) {
 
             const instance = await getNewInstance(configDuplicate)
 
-            await instance.buy({ value: web3.toWei(4, 'ether') })
+            await instance.apply({ value: web3.toWei(4, 'ether') })
 
             await expectFailure(
-                instance.buy({ value: web3.toWei(1, 'ether') }),
-                'buy did not throw an error'
+                instance.apply({ value: web3.toWei(1, 'ether') }),
+                'apply did not throw an error'
             )
         })
 
@@ -183,7 +183,7 @@ contract('BlockFoodCoin', function (accounts) {
 
             const events = []
             for (let i = 0; i < numberOfOperation; i++) {
-                const { logs } = await instance.buy({ value: web3.toWei(etherAmountForEachOperation, 'ether') })
+                const { logs } = await instance.apply({ value: web3.toWei(etherAmountForEachOperation, 'ether') })
                 events.push(logs)
             }
 
@@ -210,9 +210,9 @@ contract('BlockFoodCoin', function (accounts) {
                     'event: etherDonated is wrong'
                 )
                 assert.equal(
-                    log.args.blockFoodCoins,
+                    log.args.BlockFoodTokens,
                     Math.pow(10, decimals.toNumber()) * expectedBFCAmount / numberOfOperation,
-                    'event: blockFoodCoins is wrong'
+                    'event: BlockFoodTokens is wrong'
                 )
 
             }))
@@ -330,7 +330,7 @@ contract('BlockFoodCoin', function (accounts) {
 
             const instance = await getNewInstance(configDuplicate)
 
-            await instance.buy({ value: web3.toWei(4, 'ether') })
+            await instance.apply({ value: web3.toWei(4, 'ether') })
 
             await instance.finalize()
 
@@ -352,7 +352,7 @@ contract('BlockFoodCoin', function (accounts) {
 
             const balanceBefore = await getBalance(configDuplicate.target)
 
-            await instance.buy({ value: web3.toWei(4, 'ether') })
+            await instance.apply({ value: web3.toWei(4, 'ether') })
 
             await instance.finalize()
 
@@ -375,7 +375,7 @@ contract('BlockFoodCoin', function (accounts) {
 
             const decimals = await instance.decimals()
 
-            await instance.buy({ value: web3.toWei(4, 'ether') })
+            await instance.apply({ value: web3.toWei(4, 'ether') })
 
             await instance.finalize()
 
@@ -432,7 +432,7 @@ contract('BlockFoodCoin', function (accounts) {
 
             const instance = await getNewInstance(configDuplicate)
 
-            await instance.buy({ value: web3.toWei(4, 'ether') })
+            await instance.apply({ value: web3.toWei(4, 'ether') })
 
             await instance.finalize()
 
@@ -453,9 +453,9 @@ contract('BlockFoodCoin', function (accounts) {
 
             const instance = await getNewInstance(configDuplicate)
 
-            await instance.buy({ value: web3.toWei(1, 'ether') })
+            await instance.apply({ value: web3.toWei(1, 'ether') })
 
-            await instance.buy({ value: web3.toWei(1, 'ether'), from: accounts[1] })
+            await instance.apply({ value: web3.toWei(1, 'ether'), from: accounts[1] })
 
             web3.currentProvider.send({ jsonrpc: '2.0', method: 'evm_increaseTime', params: [15], id: 0 })
             console.log('WARNING FOR FURTHER TEST, TIME IS NOW 15 SECONDS LATER')
@@ -506,7 +506,7 @@ contract('BlockFoodCoin', function (accounts) {
 
             const instance = await getNewInstance(configDuplicate)
 
-            await instance.buy({ value: web3.toWei(0.1, 'ether'), from: accounts[2] })
+            await instance.apply({ value: web3.toWei(0.1, 'ether'), from: accounts[2] })
 
             await instance.finalize()
 

@@ -1,0 +1,25 @@
+{
+  "name": "smart-contract-token-sale",
+  "version": "1.0.0",
+  "description": "## Goal",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blockfood/smart-contract-token-sale.git"
+  },
+  "author": "Blockfood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blockfood/smart-contract-token-sale/issues"
+  },
+  "homepage": "https://github.com/blockfood/smart-contract-token-sale#readme",
+  "dependencies": {
+    "zeppelin-solidity": "^1.10.0"
+  }
+}

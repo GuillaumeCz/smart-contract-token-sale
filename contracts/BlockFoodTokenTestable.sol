@@ -13,7 +13,7 @@ contract BlockFoodTokenTestable is BlockFoodToken {
     // Amount collected without reward
     uint public donations;
 
-    function BlockFoodTokenTestable
+    constructor
     (
     address _target,
     uint _phase1Date,
@@ -54,7 +54,7 @@ contract BlockFoodTokenTestable is BlockFoodToken {
     payable
     {
         donations += msg.value;
-        ThankYou(msg.sender, msg.value);
+        emit ThankYou(msg.sender, msg.value);
     }
 
     function withdrawDonations()

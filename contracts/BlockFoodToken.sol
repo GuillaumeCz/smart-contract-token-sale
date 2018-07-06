@@ -83,7 +83,7 @@ contract BlockFoodToken is ERC20Token {
         require(now <= endDate);
 
         // cap
-        require(this.balance <= maxCap);
+        require(address(this).balance <= maxCap);
 
         _;
     }
@@ -91,7 +91,7 @@ contract BlockFoodToken is ERC20Token {
     // Use to prevent access to a function before the endDate
     modifier onlyAfterEndDateOrMaxCapReached()
     {
-        require(now >= endDate || this.balance >= maxCap);
+        require(now >= endDate || address(this).balance >= maxCap);
         _;
     }
 
@@ -115,7 +115,7 @@ contract BlockFoodToken is ERC20Token {
 
     */
 
-    function BlockFoodToken
+    constructor  
     (
         address _target,
         uint _phase1Date,
@@ -191,7 +191,7 @@ contract BlockFoodToken is ERC20Token {
         if (bfc > 0) {
             mint(msg.sender, bfc);
             history[msg.sender] += msg.value;
-            Donation(msg.sender, msg.value, bfc);
+            emit Donation(msg.sender, msg.value, bfc);
         }
     }
 
@@ -207,7 +207,7 @@ contract BlockFoodToken is ERC20Token {
         if (amountToRefund > 0) {
             history[msg.sender] = 0;
             msg.sender.transfer(amountToRefund);
-            Refund(msg.sender, amountToRefund);
+            emit Refund(msg.sender, amountToRefund);
         }
     }
 
@@ -221,13 +221,13 @@ contract BlockFoodToken is ERC20Token {
         if (!isFinalized) {
             isFinalized = true;
 
-            if (this.balance < minCap) {
+            if (address(this).balance < minCap) {
                 isCancelled = true;
             }
             else {
                 uint bfcForTarget = (uint)((_totalSupply * 10) / 7) - _totalSupply;
                 mint(target, bfcForTarget);
-                target.transfer(this.balance);
+                target.transfer(address(this).balance);
             }
         }
         else {
@@ -241,7 +241,7 @@ contract BlockFoodToken is ERC20Token {
     onlyOwner
     onlyAfterTwoMonthsAfterTheEnd
     {
-        target.transfer(this.balance);
+        target.transfer(address(this).balance);
     }
 
     // Private functions
